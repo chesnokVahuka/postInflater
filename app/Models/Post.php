@@ -9,7 +9,9 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['external_id','text','social_network','published_at'];
+
     public function resources(){
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Resource::class);
     }
 }

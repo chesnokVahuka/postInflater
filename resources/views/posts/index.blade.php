@@ -11,9 +11,11 @@
     <div class="w-full max-w-xs mx-auto">
         @foreach ($posts as $post)       
             <div class="mx-auto">
-                <p>
-                   {{ $post['text'] }}
-                </p>
+                @foreach ($post->resources as $image)
+                <p>                   
+                    {{ $image['path'] }}
+                 </p>
+                @endforeach               
             </div>
         @endforeach
     </div>

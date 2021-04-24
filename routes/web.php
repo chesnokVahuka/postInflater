@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
-
+use App\Http\Controllers\ResourceController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,4 +30,8 @@ Route::prefix('posts')->group(function () {
     Route::get('/posts/{post}/edit', [PostController::class,'edit'])->name('posts.edit');
     Route::put('/posts/{post}', [PostController::class,'update'])->name('posts.update');
     Route::delete('/posts/{post}', [PostController::class,'destroy'])->name('posts.destroy');
+});
+
+Route::prefix('resource')->group(function () {
+    Route::post('/',[ResourceController::class, 'store'])->name('resource.store');
 });

@@ -9,7 +9,20 @@
 </head>
 <body>
     <div class="w-full max-w-xs mx-auto">
-        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" action="{{ route('image.upload') }}" method="post" enctype="multipart/form-data">
+      @if ($errors->any())
+        @foreach ($errors->all() as $error)
+          <div class="error_message">
+            <span>{{$error}}</span>
+          </div>         
+        @endforeach
+      @endif
+
+      @if (session()->has('success'))
+        <div>
+          <span>{{session()->get('success')}}</span>
+        </div>          
+      @endif
+        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" action="{{ route('posts.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="external_id">
@@ -23,6 +36,12 @@
                 </label>
                 <input class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="text" type="text" placeholder="text" name="text">
                 <p class="text-red-500 text-xs italic">Please wrire a text.</p>
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="datetime">
+              Date
+              </label>
+              <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="datetime" type="datetime-local" name="published_at" value="" required>
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="social_network">

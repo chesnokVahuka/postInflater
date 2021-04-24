@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Post;
 use App\Models\Resource;
 
-class PostController extends Controller
+class ResourceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +14,6 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
-
-        return view('posts.index',['posts'=>$posts]);
     }
 
     /**
@@ -27,7 +23,6 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
     }
 
     /**
@@ -38,33 +33,17 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'external_id' => 'numeric|unique:posts',
-            'text' => 'nullable|string',
-            'social_network' => 'required|string|max:30',
-            'published_at' => 'date',            
-        ]);
-        
-        $post = Post::create($validated);
 
-        if($request->has('image'))
-        {
-            $request->validate([
-                'image' => 'image|mimes:jpeg,jpg,png,gif'
+        $path = $request->file('image')->store('uploads','public');
+            
+        $resource = Resource::create([
+            'post_id' => $post->id,
+            'type' => 'photo',
+            'path' => $path,
+            'social_network' => $request->social_network,
             ]);
 
-            $path = $request->file('image')->store('uploads','public');
-            
-            Resource::create([
-                'post_id' => $post->id,
-                'type' => 'photo',
-                'path' => $path,
-                'social_network' => $post->social_network
-            ]);               
-        }
-       
-        return back()->with('success','Success! Post uploaded.');
-        //return response()->json(['error'=> false, 'data'=>$post]);
+        return back()->with('success','Success! Image uploaded.');
     }
 
     /**
