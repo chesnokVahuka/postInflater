@@ -88,6 +88,9 @@ class ResourceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $resource = Resource::findOrFail($id);
+        $resource->delete();
+
+        return redirect('/posts');
     }
 }

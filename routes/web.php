@@ -26,12 +26,13 @@ Route::prefix('posts')->group(function () {
     Route::get('/', [PostController::class,'index'])->name('posts.index');
     Route::get('/create', [PostController::class,'create'])->name('posts.create');
     Route::post('/', [PostController::class,'store'])->name('posts.store');
-    Route::get('/posts/{post}', [PostController::class,'show'])->name('posts.show');
-    Route::get('/posts/{post}/edit', [PostController::class,'edit'])->name('posts.edit');
-    Route::put('/posts/{post}', [PostController::class,'update'])->name('posts.update');
-    Route::delete('/posts/{post}', [PostController::class,'destroy'])->name('posts.destroy');
+    Route::get('/{post}', [PostController::class,'show'])->name('posts.show');
+    Route::get('/{post}/edit', [PostController::class,'edit'])->name('posts.edit');
+    Route::put('/{post}', [PostController::class,'update'])->name('posts.update');
+    Route::delete('/{post}', [PostController::class,'destroy'])->name('posts.destroy');
 });
 
 Route::prefix('resource')->group(function () {
     Route::post('/',[ResourceController::class, 'store'])->name('resource.store');
+    Route::delete('/{resource}',[ResourceController::class,'destroy'])->name('posts.destroy');
 });
