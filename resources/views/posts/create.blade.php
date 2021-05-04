@@ -49,7 +49,7 @@
     
             <div class="form-group">
               <label for="exampleFormControlSelect1">Social network</label>
-              <select class="form-control" id="exampleFormControlSelect1">
+              <select class="form-control" id="exampleFormControlSelect1" name="social_network">
                 <option>VK</option>
                 <option>Instagram</option>
               </select>

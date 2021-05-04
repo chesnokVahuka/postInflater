@@ -5,9 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Resource;
+use App\Services\ImageLoadService;
+use App\Services\PostService;
 
 class PostController extends Controller
 {
+    private $postService;
+
+    public function __construct(PostService $service)
+    {
+        $this->postService = $service;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -53,14 +61,9 @@ class PostController extends Controller
                 'image' => 'image|mimes:jpeg,jpg,png,gif'
             ]);
 
-            $path = $request->file('image')->store('uploads','public');
-            
-            Resource::create([
-                'post_id' => $post->id,
-                'type' => 'photo',
-                'path' => $path,
-                'social_network' => $post->social_network
-            ]);               
+            //$path = $request->file('image')->store('uploads','public');
+            $path = ImageLoadService::save($request->file('image'));
+            $resource = $this->postService->savePostResource($post, $path);               
         }
        
         return back()->with('success','Success! Post uploaded.');

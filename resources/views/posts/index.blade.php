@@ -8,19 +8,23 @@
     <title>Posts</title>
 </head>
 <body>
-    <div class="w-full max-w-xs mx-auto">
-        @foreach ($posts as $post)       
-            <div class="mx-auto">
-                @foreach ($post->resources as $image)
-                    <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src={{asset('storage/'. $image['path'])}} alt="Card image cap">
-                        <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <div class="container-fluid">
+        <div class="row">
+            @foreach ($posts as $post)       
+                <div class="col-md-4">
+                    @foreach ($post->resources as $image)
+                        <div class="card" style="width: 100%;">
+                        <img class="card-img-top" src={{asset('storage/'. $image['path'])}} alt="Card image cap">
+                            <div class="card-body">
+                                <p class="card-text">{{$post['text']}}</p>
+                                <p class="card-text">{{$post['published_at']}}</p>
+                            </div>
                         </div>
-                    </div>
-                @endforeach               
-            </div>
-        @endforeach
+                    @endforeach               
+                </div>
+            @endforeach 
+        </div>
+         
     </div>
 </body>
 </html>
