@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Services\ImageLoadService;
+use App\Services\ImageDeleteService;
 use App\Models\Resource;
 use App\Models\Post;
 
@@ -16,6 +17,19 @@ class PostService {
         ]);
 
         return $resource;
+    }
+
+    public function allPosts()
+    {
+        return $posts = Post::all();
+
+    }
+
+    public function destroy(Post $post)
+    {
+        $resource = Resource::select('path')->where('post_id',$post['id'])->first();
+        ImageDeleteService::delete('public/'.$resource->path);
+        $post->delete();
     }
 }
 ?>

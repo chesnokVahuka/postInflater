@@ -19,6 +19,17 @@
                                 <p class="card-text">{{$post['text']}}</p>
                                 <p class="card-text">{{$post['published_at']}}</p>
                             </div>
+
+                            <div>
+                    
+                            <form action="/posts/{{$post['id']}}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger" type="submit">
+                                        Delete {{$post['id']}}
+                                    </button>
+                                </form>                            
+                            </div>
                         </div>
                     @endforeach               
                 </div>

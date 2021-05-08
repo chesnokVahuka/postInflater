@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Resource;
 use App\Services\ImageLoadService;
+use App\Services\ImageDeleteService;
 use App\Services\PostService;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -16,16 +18,11 @@ class PostController extends Controller
     {
         $this->postService = $service;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $posts = Post::all();
+ 
 
-        return view('posts.index',['posts'=>$posts]);
+    public function index()
+    {   
+        return view('posts.index',['posts'=>$this->postService->allPosts()]);
     }
 
     /**
@@ -61,13 +58,11 @@ class PostController extends Controller
                 'image' => 'image|mimes:jpeg,jpg,png,gif'
             ]);
 
-            //$path = $request->file('image')->store('uploads','public');
             $path = ImageLoadService::save($request->file('image'));
             $resource = $this->postService->savePostResource($post, $path);               
         }
        
         return back()->with('success','Success! Post uploaded.');
-        //return response()->json(['error'=> false, 'data'=>$post]);
     }
 
     /**
@@ -110,8 +105,13 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $this->postService->destroy($post);
+        //$post = Post::find($id);
+        //$resource = Resource::where('post_id',$post['id'])->first();
+        //$resource->delete();
+        //$post->delete();
+        return back()->with('success','Success! Post deleted.');
     }
 }
